@@ -24,7 +24,7 @@ function generateData(numRows) {
 
   return data;
 }
-//create get headers function
+//create get table headers function
 function getTh(){
     const column = Object.keys(jsonData[0]);
     const head = document.querySelector('thead');
@@ -34,17 +34,33 @@ function getTh(){
     }
     tags += "</tr>"
     head.innerHTML = tags;
-    getTable()
+    getTable(1,20)
+    
 }
-////
 
 
-//created get table function
-function getTable(){
-    const body = document.querySelector('tbody')
-    let tags = "";
-    jsonData.map(d =>{
-        tags += `<tr>
+//get table function to get table's data
+function getTable(page, pageSize, searchQuery) {
+  const body = document.querySelector("tbody");
+  let tags = "";
+  let data = jsonData;
+
+  // Filter data based on search query
+  if (searchQuery) {
+    data = jsonData.filter((d) => {
+      return Object.values(d)
+        .join("")
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+    });
+  }
+
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  data = data.slice(startIndex, endIndex);
+
+  data.map((d) => {
+    tags += `<tr>
         <td>${d.id}</td>
         <td>${d.firstName}</td>
         <td>${d.lastName}</td>
@@ -55,11 +71,43 @@ function getTable(){
         <td>${d.state}</td>
         <td>${d.country}</td>
         <td>${d.zipCode}</td>
-        `
-    })
-    body.innerHTML = tags
+        `;
+  });
+  body.innerHTML = tags;
+
+  // add dynamic previous and next buttons
+  const prevButton = document.querySelector("#prev");
+  const nextButton = document.querySelector("#next");
+  prevButton.disabled = page === 1;
+  nextButton.disabled = endIndex >= jsonData.length;
+  prevButton.addEventListener("click", () => {
+    if (page > 1) {
+      getTable(page - 1, pageSize, searchQuery);
+    }
+  });
+  nextButton.addEventListener("click", () => {
+    if (endIndex < jsonData.length) {
+      getTable(page + 1, pageSize, searchQuery);
+    }
+  });
+
+  // Update visible data span
+  const visibleDataSpan = document.querySelector("#visible-data");
+  const startDataIndex = startIndex + 1;
+  const endDataIndex = Math.min(endIndex, jsonData.length);
+  visibleDataSpan.innerText = `Showing ${startDataIndex} to ${endDataIndex} of ${jsonData.length} entries`;
+
 }
+
+// Add event listener to search input
+const input = document.querySelector("#input");
+input.addEventListener("input", () => {
+  const searchQuery = input.value;
+  getTable(1, 20, searchQuery);
+});
+
+
 getTh()
-//////
+
 
 

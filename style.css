@@ -18,3 +18,17 @@ table {
   tr:nth-child(even) {
     background-color: #f1c8c8;
   }
+  .footer{
+    margin-top: 20px;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  button{
+    padding: 7px 15px;
+    color: white;
+    background-color: black;
+    font-size: 20px;
+    cursor: pointer;
+  }
