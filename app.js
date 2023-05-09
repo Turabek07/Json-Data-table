@@ -25,17 +25,18 @@ function generateData(numRows) {
   return data;
 }
 //create get table headers function
-function getTh(){
-    const column = Object.keys(jsonData[0]);
-    const head = document.querySelector('thead');
-    let tags = '<tr>';
-    for(let i = 0; i < column.length;i++){
-        tags += `<th>${column[i]} </th>`
-    }
-    tags += "</tr>"
-    head.innerHTML = tags;
-    getTable(1,20)
-    
+function getTableHeaders() {
+  const column = Object.keys(jsonData[0]);
+  const head = document.querySelector('thead');
+  let tags = '<tr>';
+  for (let i = 0; i < column.length; i++) {
+    tags += `<th>${column[i]} </th>`
+  }
+  tags += "</tr>"
+  head.innerHTML = tags;
+
+  getTable(1, 200)
+
 }
 
 
@@ -75,7 +76,7 @@ function getTable(page, pageSize, searchQuery) {
   });
   body.innerHTML = tags;
 
-  // add dynamic previous and next buttons
+  // add previous and next buttons
   const prevButton = document.querySelector("#prev");
   const nextButton = document.querySelector("#next");
   prevButton.disabled = page === 1;
@@ -89,7 +90,17 @@ function getTable(page, pageSize, searchQuery) {
     if (endIndex < jsonData.length) {
       getTable(page + 1, pageSize, searchQuery);
     }
+    //  else if (endDataIndex == 2000){
+    //   nextButton.classList.add("active")
+    // }
+    // else if(!endDataIndex===2000) {
+    //   nextButton.classList.remove("active")
+    // } ;
+    //   prevButton.classList.remove("active");
+    
+    
   });
+
 
   // Update visible data span
   const visibleDataSpan = document.querySelector("#visible-data");
@@ -103,11 +114,11 @@ function getTable(page, pageSize, searchQuery) {
 const input = document.querySelector("#input");
 input.addEventListener("input", () => {
   const searchQuery = input.value;
-  getTable(1, 20, searchQuery);
+  getTable(1, 200, searchQuery);
 });
 
 
-getTh()
+getTableHeaders();
 
 
 

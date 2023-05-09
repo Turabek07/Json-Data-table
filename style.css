@@ -16,7 +16,7 @@ table {
   }
 
   tr:nth-child(even) {
-    background-color: #f1c8c8;
+    background-color: #a4cfe7;
   }
   .footer{
     margin-top: 20px;
@@ -28,7 +28,19 @@ table {
   button{
     padding: 7px 15px;
     color: white;
-    background-color: black;
+    background-color: rgb(99, 182, 119);
     font-size: 20px;
     cursor: pointer;
+    border-radius: 10px;
+    border-color: #f1c8c8;
   }
+  input{
+    width: 100%;
+    height: 30px;
+  }
+  /* .active{
+    visibility: hidden;
+  }
+  .show{
+    visibility: visible;
+  } */
